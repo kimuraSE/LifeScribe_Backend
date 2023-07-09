@@ -10,7 +10,7 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 )
 
-func NewRouter(uc controller.IUserController) *echo.Echo {
+func NewRouter(uc controller.IUserController, dc controller.IDiaryController) *echo.Echo {
 	e := echo.New()
 
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
@@ -42,6 +42,18 @@ func NewRouter(uc controller.IUserController) *echo.Echo {
 	}))
 
 	e.DELETE("/:id", uc.Destory)
+
+	diary := e.Group("/diary")
+	diary.Use(echojwt.WithConfig(echojwt.Config{
+		SigningKey:  []byte(os.Getenv("JWT_SECRET")),
+		TokenLookup: "cookie:jwt_token",
+	}))
+
+	diary.POST("", dc.Create)
+	diary.GET("/:id", dc.Read)
+	diary.GET("", dc.AllRead)
+	diary.PUT("/:id", dc.Update)
+	diary.DELETE("/:id", dc.Delete)
 
 	return e
 }
