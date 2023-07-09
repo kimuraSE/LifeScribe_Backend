@@ -22,6 +22,10 @@ func main() {
 	userUsecase := usecase.NewUserUsecase(userRepository)
 	userController := controller.NewUserController(userUsecase)
 
-	routes := routes.NewRouter(userController)
+	diaryRepository := repository.NewDiaryRepository(db)
+	diaryUsecase := usecase.NewDiaryUsecase(diaryRepository)
+	diaryController := controller.NewDiaryController(diaryUsecase)
+
+	routes := routes.NewRouter(userController, diaryController)
 	routes.Logger.Fatal(routes.Start(":8080"))
 }

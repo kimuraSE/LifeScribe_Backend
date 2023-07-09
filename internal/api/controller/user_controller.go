@@ -7,7 +7,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/golang-jwt/jwt/v4"
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/labstack/echo/v4"
 )
 
@@ -33,7 +33,7 @@ func (u *userController) Login(c echo.Context) error {
 	}
 
 	user := model.User{
-		ID : req.ID,
+		ID:       req.ID,
 		Name:     req.Name,
 		Email:    req.Email,
 		Password: []byte(req.Password),
@@ -64,7 +64,7 @@ func (u *userController) SignUp(c echo.Context) error {
 	}
 
 	user := model.User{
-		ID : req.ID,
+		ID:       req.ID,
 		Name:     req.Name,
 		Email:    req.Email,
 		Password: []byte(req.Password),
