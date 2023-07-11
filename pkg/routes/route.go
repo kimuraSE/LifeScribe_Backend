@@ -14,7 +14,7 @@ func NewRouter(uc controller.IUserController, dc controller.IDiaryController) *e
 	e := echo.New()
 
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		AllowOrigins: []string{"http://localhost:3000"},
+		AllowOrigins: []string{"*"},
 		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept,
 			echo.HeaderAccessControlAllowCredentials, echo.HeaderXCSRFToken},
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE"},
@@ -25,9 +25,9 @@ func NewRouter(uc controller.IUserController, dc controller.IDiaryController) *e
 		CookiePath:     "/",
 		CookieDomain:   os.Getenv("API_DOMAIN"),
 		CookieHTTPOnly: true,
-		// CookieSameSite: http.SameSiteNoneMode,
-		CookieSameSite: http.SameSiteDefaultMode,
-		// CookieMaxAge: 60,
+		CookieSameSite: http.SameSiteLaxMode,
+		// CookieSameSite: http.SameSiteDefaultMode,
+		CookieMaxAge: 60,
 	}))
 
 	e.GET("/csrf", uc.CsrfToken)

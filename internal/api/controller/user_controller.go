@@ -51,7 +51,7 @@ func (u *userController) Login(c echo.Context) error {
 	cookie.HttpOnly = true
 	cookie.Domain = os.Getenv("API_DOMAIN")
 	cookie.Path = "/"
-	cookie.SameSite = http.SameSiteNoneMode
+	cookie.SameSite = http.SameSiteLaxMode
 	// cookie.Secure = true
 	c.SetCookie(cookie)
 	return c.NoContent(http.StatusOK)
@@ -82,7 +82,7 @@ func (u *userController) SignUp(c echo.Context) error {
 	cookie.HttpOnly = true
 	cookie.Domain = os.Getenv("API_DOMAIN")
 	cookie.Path = "/"
-	cookie.SameSite = http.SameSiteNoneMode
+	cookie.SameSite = http.SameSiteLaxMode
 	// cookie.Secure = true
 	c.SetCookie(cookie)
 	return c.NoContent(http.StatusOK)
@@ -103,7 +103,7 @@ func (u *userController) Destory(c echo.Context) error {
 	cookie.Expires = time.Now()
 	cookie.HttpOnly = true
 	cookie.Domain = os.Getenv("API_DOMAIN")
-	cookie.SameSite = http.SameSiteNoneMode
+	cookie.SameSite = http.SameSiteLaxMode
 	// cookie.Secure=true
 	cookie.Path = "/"
 	c.SetCookie(cookie)
@@ -113,6 +113,7 @@ func (u *userController) Destory(c echo.Context) error {
 
 func (u *userController) CsrfToken(c echo.Context) error {
 	token := c.Get("csrf").(string)
+
 	return c.JSON(http.StatusOK,
 		echo.Map{
 			"csrf_token": token,
